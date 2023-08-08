@@ -40,28 +40,42 @@ Route::get('/reset-password', [AuthController::class,'resetPassword'])->name('re
 
 Route::group(['middleware' => ['web', 'checkAdmin']],function () {
     Route::get('/admin/dashboard', [AuthController::class,'adminDashboard']);
+
+
     Route::post('/add-subject' ,[AdminController::class,'addSubject'])->name('addSubject');
     Route::post('/edit-subject' ,[AdminController::class,'editSubject'])->name('editSubject');
     Route::post('/delete-subject' ,[AdminController::class,'deleteSubject'])->name('deleteSubject');
+    
     Route::get('/admin/exam' ,[AdminController::class,'examDashboard']);
+    
     Route::post('/add-exam' ,[AdminController::class,'addExam'])->name('addExam');
     Route::get('/get-exam-detail/{id}' ,[AdminController::class,'getExamDetail'])->name('getExamDetail');
-    Route::post('/update-exam' ,[AdminController::class,'updateExam'])->name('updateExam');
+    Route::post('/edit-exam' ,[AdminController::class,'editExam'])->name('editExam');
     Route::post('/delete-exam' ,[AdminController::class,'deleteExam'])->name('deleteExam');
+   
     Route::get('/admin/qna-ans' ,[AdminController::class,'qnaDashboard']);
     Route::get('/exam/create', 'ExamController@create')->name('exam.create');
     Route::post('/add-qna-ans' ,[AdminController::class,'addQna'])->name('addQna');
     Route::get('/get-qna-details' ,[AdminController::class,'getQnaDetails'])->name('getQnaDetails');
     Route::get('/delete-ans' ,[AdminController::class,'deleteAns'])->name('deleteAns');
+
+
     Route::post('/update-qna-ans' ,[AdminController::class,'updateQna'])->name('updateQna');
     Route::post('/delete-qna-ans' ,[AdminController::class,'deleteQna'])->name('deleteQna');
     Route::post('/import-qna-ans' ,[AdminController::class,'importQna'])->name('importQna');
     //student route
+    
     Route::get('/admin/students' ,[AdminController::class,'studentsDashboard']);
     Route::post('/add-student' ,[AdminController::class,'addStudent'])->name('addStudent');
     Route::post('/edit-student' ,[AdminController::class,'editStudent'])->name('editStudent');
     Route::post('/delete-student' ,[AdminController::class,'deleteStudent'])->name('deleteStudent');
 
+       //exams routing
+       Route::post('/get-questions' ,[AdminController::class,'getQuestions'])->name('getQuestions');
+       Route::post('/add-questions' ,[AdminController::class,'addQuestions'])->name('addQuestions');
+       Route::post('/get-exam-questions' ,[AdminController::class,'getExamQuestions'])->name('getExamQuestions');
+       Route::post('/delete-exam-questions' ,[AdminController::class,'deleteExamQuestions'])->name('deleteExamQuestions');
+   
     });
 
 Route::group(['middleware' => ['web', 'checkStudent']],function () {

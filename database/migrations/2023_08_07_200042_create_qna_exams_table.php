@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subject', function (Blueprint $table) {
+        Schema::create('qna_exams', function (Blueprint $table) {
             $table->id();
-            $table->string('subject');
+            $table->integer('exam_id');
+            $table->integer('question_id');
             $table->timestamps();
         });
     }
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subject');
+        Schema::dropIfExists('qna_exams');
     }
 };

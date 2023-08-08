@@ -11,11 +11,12 @@ class CreateExamsAnswersTable extends Migration
         Schema::create('exams_answers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('attempt_id');
-            $table->foreign('attempt_id')->references('id')->on('attempts');
             $table->unsignedBigInteger('question_id');
-            $table->foreign('question_id')->references('id')->on('questions');
             $table->unsignedBigInteger('answer_id');
-            $table->foreign('answer_id')->references('id')->on('answers');
+            $table->foreign('attempt_id')->references('id')->on('exams_answers')->onDelete('cascade');
+            $table->foreign('question_id')->references('id')->on('exams_answers')->onDelete('cascade');
+            $table->foreign('answer_id')->references('id')->on('exams_answers')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

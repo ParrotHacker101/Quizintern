@@ -16,8 +16,8 @@ class CreateExamsTable extends Migration
             $table->date('date');
             $table->time('time');
             $table->integer('attempt');
-            $table->unsignedBigInteger('enterance_id');
-            $table->foreign('enterance_id')->references('id')->on('enterances');
+            $table->unsignedBigInteger('entrance_id');
+            $table->foreign('entrance_id')->references('id')->on('exams')->onDelete('cascade');
             $table->timestamps();
         });
     }
