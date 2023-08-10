@@ -18,7 +18,6 @@ class Exam extends Model
     public function subjects(){
         return $this->hasMany(Subject::class,'id','subject_id');
     }
-    
     public function getQnaExam(){
         return $this->hasMany(QnaExam::class,'exam_id','id');
     }

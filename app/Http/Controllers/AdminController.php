@@ -7,6 +7,7 @@ use App\Models\Subject;
 use App\Models\Exam;
 use App\Models\Question;
 use App\Models\Answer;
+use App\Models\QnaExam;
 use App\Models\User;
 use App\Imports\QnaImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -61,20 +62,26 @@ class AdminController extends Controller
         };
 
     }
-
-
-     protected function examDashboard(){
-        $subjects=subject::all();
+    protected function examDashboard(){
+        
+    
+        
+        $subjects=Subject::all();
         $exams=Exam::with('subjects')->get();
         return view("admin.Exam-dashboard",['subjects'=>$subjects ,'exams'=> $exams]);
     }
     public function addExam(Request $request){
         try{
+            $unique_id = uniqid('exid');
+           
+            
             Exam::insert([
                 'exam_name' => $request-> exam_name,
                 'subject_id' => $request-> subject_id,
                 'date' => $request-> date,
-                'time' => $request-> time
+                'time' => $request-> time,
+                'attempt' => $request-> attempt,
+                'enterance_id'=>$unique_id
                 
 
             ]);
@@ -84,19 +91,20 @@ class AdminController extends Controller
            catch(\Execption $e){
                return response()->json(['success'=>false, "msg"=>$e->getMessage()]);
            };
-    } 
+   
 
+    } 
     //edit exam
     public function getExamDetail($id){
         try{
            $exam=Exam::where('id',$id)->get();
                return response()->json(['success'=>true, "data"=>'$exam']);
            }
-   
+
            catch(\Execption $e){
                return response()->json(['success'=>false, 'msg'=>$e->getMessage()]);
            };
-   
+
 
     } 
     public function editExam(Request $request){
@@ -107,11 +115,11 @@ class AdminController extends Controller
             $exam->date=$request->date;
             $exam->time=$request->time;
             $exam->attempt=$request->attempt;
-            
+
             $exam->save();
                 return response()->json(['success'=>true, 'msg'=>'exam is updated successfully!']);
             }
-    
+
             catch(\Execption $e){
                 return response()->json(['success'=>false, 'msg'=>$e->getMessage()]);
             };
@@ -129,8 +137,6 @@ class AdminController extends Controller
         };
 
     }
-
-    
     public function qnaDashboard(){
         $questions=Question::with('Answers')->get();
         return view('admin.qnaDashboard',compact('questions')); 
@@ -310,8 +316,7 @@ class AdminController extends Controller
              return response()->json(['success'=>false, 'msg'=>$e->getMessage()]);
          };
      }
-        
-
+    
      //get questions
      public function getQuestions(Request $request){
         try{
@@ -320,7 +325,7 @@ class AdminController extends Controller
 
                 $data = [];
                 $counter = 0;
-                
+
                 foreach($questions as $question)
                 {
                     $qnaExam = QnaExam::where(['exam_id'=>$request->exam_id, 'question_id'=>$question->id])->get();
@@ -343,51 +348,64 @@ class AdminController extends Controller
     }
 
        //add questions
-       public function addQuestions(Request $request){
-        try{
-            if(isset($request->questions_ids)){
+       public function addQuestions(Request $request)
+{
+    try {
+        if (isset($request->questions_ids)) {
+            $exam_id = $request->exam_id;
 
-                foreach($request->questions_ids as $qid){
-                    QnaExam::insert([
-                        'exam_id' => $request->$exam_id,
-                        'questions_id' => $qid,
-                    ]);
-                }
+            foreach ($request->questions_ids as $qid) {
+                QnaExam::insert([
+                    'exam_id' => $exam_id,
+                    'question_id' => $qid,
+                ]);
             }
-            return response()->json(['success'=>true, 'msg'=>'Question is added successfully!']);
         }
 
-        catch(\Execption $e){
-            return response()->json(['success'=>false, 'msg'=>$e->getMessage()]);
-        };
+        return response()->json(['success' => true, 'msg' => 'Question is added successfully!']);
+    } catch (\Exception $e) {
+        return response()->json(['success' => false, 'msg' => $e->getMessage()]);
     }
-
-       
+}
      //see questions
      public function getExamQuestions(Request $request){
-        try{
-            $data = QnaExam::where('exam_id',$request->$exam_id)->with('question')->get();
-            return response()->json(['success'=>true, 'msg'=>'Question details!', 'data'=>$data]);
+        try {
+            $data = QnaExam::where('exam_id', $request->exam_id)->with('question')->get();
+            return response()->json(['success' => true, 'msg' => 'Question details!', 'data' => $data]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'msg' => $e->getMessage()]);
         }
-
-        catch(\Execption $e){
-            return response()->json(['success'=>false, 'msg'=>$e->getMessage()]);
-        };
     }
-
       //delete questions
-      public function deleteExamQuestions(Request $request){
-        try{
-            QnaExam::where('id',$request->id)->delete();
-            return response()->json(['success'=>true, 'msg'=>'Question is deleted successfully!']);
-        }
-
-        catch(\Execption $e){
-            return response()->json(['success'=>false, 'msg'=>$e->getMessage()]);
-        };
+      public function deleteExamQuestions(Request $request)
+      {
+          try {
+              $id = $request->id;
+              error_log("Deleting question with ID: " . $id); // Log message for debugging
+              QnaExam::where('id', $id)->delete();
+              return response()->json(['success' => true, 'msg' => 'Question is deleted successfully!']);
+          } catch (\Exception $e) {
+              return response()->json(['success' => false, 'msg' => $e->getMessage()]);
+          }
+      }
+    public function subjects(){
+        return $this->hasMany(Subject::class,'id','subject_id');
     }
 
+    public function getQnaExam(){
+        return $this->hasMany(QnaExam::class,'exam_id','id');
+    }
+
+    public function loadMarks()
+    {
+        return view('admin.marksDashboard');
+    }
 
     } 
+
+     
+        
+
+    
    
 

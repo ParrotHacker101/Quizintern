@@ -204,20 +204,20 @@ Add Quiz
         </div>
         <form id="addQna">
                 @csrf
-              <div class="modal-body">
-                 <input type="hidden" name="exam_id" id="addExamId">
-                 <input type="search" name="search" id="search" onkeyup="searchTable()" class="w-100" placeholder="search here">
-                 <br><br>
-                <table class="table" id="questionsTable">
-                  <thead>
-                    <th>Select</th>
-                    <th>Question</th>
-                  </thead>
-                  <tbody class="addBody">
-
-                  </tbody>
-                </table>
-              </div>    
+                <div class="modal-body">
+                  <input type="hidden" name="exam_id" id="addExamId">
+                  <input type="search" name="search" id="search" onkeyup="searchTable()" class="w-100" placeholder="search here">
+                  <br><br>
+                  <table class="table" id="questionsTable">
+                    <thead>
+                      <th>Select</th>
+                      <th>Question</th>
+                    </thead>
+                    <tbody class="addBody"></tbody>
+                  </table>
+                </div>
+                
+                
 
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -240,6 +240,8 @@ Add Quiz
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        <form id="seeQna">
+          @csrf
               <div class="modal-body">
                 <table class="table">
                   <thead>
@@ -387,7 +389,6 @@ $(".editButton").click(function(){
                 }
               });
             });
-
             $("#addQna").submit(function(e){
                 e.preventDefault();
                 var formData=$(this).serialize();
@@ -404,93 +405,87 @@ $(".editButton").click(function(){
                     }
                 });
             });
-            
-
              //see questions part
-         $('.seeQuestions').click(function(){
-          var id = $(this).attr('data-id');
+          
+           
+    $('.seeQuestions').click(function() {
+      var id = $(this).attr('data-id');
 
-          $.ajax({
-            url:"{{ route('getExamQuestions') }}",
-            type:"GET",
-            data:{exam_id:id},
-            success:function(data){
-              console.log(data);
+      $.ajax({
+        url: "{{ route('getExamQuestions') }}",
+        type: "GET",
+        data: { exam_id: id },
+        success: function(data) {
+          console.log(data);
 
-                var questions = data.data;
-                var html = '';
-                if(questions.length > 0){
-                  for(let i=0; i<questions.length; i++){
-                    html +=`
-                        <tr>
-                            <td>`+(i+1)+`</td>
-                            <td>`+questions[i]['question'][0]['question']+`</td>
-                            <td>
-                              <button class="btn btn-danger deleteQuestion" data-id="`+questions[i]['id']+`">Delete</button>
-                            </td>
-                        </tr>
-                        `;
-                  }
-                }
-                else{
-                  html +=`
-                  <tr>
-                      <td colspan="1">Question is not Available!</td> 
-                  </tr> `;
-                }
-                $('.seeQuestionTable').html(html);
-                
-               
+          var questions = data.data;
+          console.log(questions);
 
-
+          var html = '';
+          if (questions.length > 0) {
+            for (let i = 0; i < questions.length; i++) {
+              html += `
+                <tr>
+                  <td>` + (i + 1) + `</td>
+                  <td>` + questions[i]['question'][0]['question'] + `</td>
+                  <td>
+                    <button class="btn btn-danger deleteQuestion" data-id="` + questions[i]['id'] + `">Delete</button>
+                  </td>
+                </tr>
+              `;
             }
-          });
-          });
+          } else {
+            html += `
+              <tr>
+                <td colspan="1">Question is not Available!</td>
+              </tr>
+            `;
+          }
+          $('.seeQuestionTable').html(html);
+        }
+      });
+    });
+    
 
-          //delete question
-          $(document).on('click', '.deleteQuestion',function(){
-            var id = $(this).attr('data-id');
-            var obj = $(this);
-          $.ajax({
-            url:"{{ route('deleteExamQuestions') }}",
-            type:"GET",
-            data:{id:id},
-            success:function(data){
-             if(data.success == true){
-              $(this).parent().parent().remove();
-             }
-             else{
-              alert(data.msg);
-             }
-             
-              }
-          });
-          });
-            
-        });
+    $(document).on('click', '.deleteQuestion', function() {
+      var id = $(this).attr('data-id');
+      var obj = $(this);
+      $.ajax({
+        url: "{{ route('deleteExamQuestions') }}",
+        type: "GET", 
+        data: { id:id },
+        success: function(data) {
+          if (data.success == true) {
+            obj.parent().parent().remove();
+          } else {
+            alert(data.msg);
+          }
+        }
+      });
+    });
+  
+});
+
 </script>
 
 <script>
-  function searchTable(){
+  function searchTable() {
     var input, filter, table, tr, td, i, txtValue;
-    input = document.getELementById('search');
+    input = document.getElementById('search');
     filter = input.value.toUpperCase();
-    table = document.getELementById('questionsTable');
-    tr = table.getELementsByTagName("tr");
-    for(i=0; i<tr.length; i++)
-    {
-      td = tr[i].getELementsByTagName("td")[1];
-      if(td){
+    table = document.getElementById('questionsTable');
+    tr = table.getElementsByTagName("tr");
+    for(i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[1];
+      if(td) {
         txtValue = td.textContent || td.innerText;
-        if(txtValue.toUpperCase().indexOf(filter) > -1){
+        if(txtValue.toUpperCase().indexOf(filter) > -1) {
           tr[i].style.display = "";
-        }
-        else{
+        } else {
           tr[i].style.display = "none";
         }
       }
     }
-
   }
 </script>
 

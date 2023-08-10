@@ -10,6 +10,12 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="{{asset('css/style.css')}}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="{{ asset('js/multiselect-dropdown.js') }}"></script>
+    <style>
+      .multiselect-dropdown{
+        width: 100% !important;
+      }
+    </style>
   </head>
   <body>
 
@@ -28,6 +34,9 @@
           </li>
           <li class="active">
             <a href="/admin/exam"><span class="fa fa-tasks mr-3"></span> Quiz</a>
+          </li>
+          <li class="active">
+            <a href="/admin/marks"><span class="fa fa-check mr-3"></span> Marks</a>
           </li>
           <li class="active">
             <a href="/admin/qna-ans"><span class="fa fa-question-circle mr-3"></span> Q&A</a>
