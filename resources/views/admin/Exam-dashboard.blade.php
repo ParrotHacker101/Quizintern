@@ -110,6 +110,7 @@ Add Quiz
    
     </div>
   </div>
+
                   <!-- edit Quiz Modal -->
   <div class="modal fade" id="editExamModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -286,7 +287,7 @@ Add Quiz
             });
 
            // Handle AJAX request for editing an exam
-$(".editButton").click(function(){
+            $(".editButton").click(function(){
                 var id=$(this).attr('data-id');
                 $("#exam_id").val(id);
                 var url = $(this).attr('data-url');

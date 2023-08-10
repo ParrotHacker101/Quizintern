@@ -44,6 +44,9 @@
           <li class="active">
             <a href="/admin/students"><span class="fa fa-graduation-cap mr-3"></span> Students </a>
           </li>
+          <li class="active">
+            <a href="/admin/review-exams"><span class="fa fa-file-text-o mr-3"></span> Quiz Review </a>
+          </li>
           <li>
               <a href="/logout"><span class="fa fa-sign-out mr-3"></span> logout</a>
           </li>
