@@ -9,6 +9,7 @@ use App\Models\ExamAttempt;
 use App\Models\Question;
 use App\Models\Answer;
 use App\Models\QnaExam;
+use App\Models\ExamAnswer;
 
 use App\Models\User;
 use App\Imports\QnaImport;
@@ -425,6 +426,16 @@ class AdminController extends Controller
             $attempts = ExamAttempt::with(['user','exam'])->orderBy('id')->get();
             return view('admin.review-exams',compact('attempts'));
         }
+
+        public function reviewQna(Request $request){
+            try {
+                $attemptData=Exam::where('attempt_id',$request->attempt_id)->with(['question','answers'])->get();
+                return response()->json(['success' => true, 'data'=>'$attemptData']);
+            
+            } catch (\Exception $e) {
+                return response()->json(['success' => false, 'msg' => $e->getMessage()]);
+            }
+        }  
 
     } 
 
