@@ -75,6 +75,7 @@
             </div>
         </div>
     </div>
+        
     <!- edit Qna Modal -->
     <div class="modal fade" id="editQnaModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
