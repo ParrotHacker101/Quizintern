@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ExamAnswer extends Model
+class ExamAttempt extends Model
 {
     use HasFactory;
     public $table = "exams_answers";
@@ -13,16 +13,16 @@ class ExamAnswer extends Model
     protected $fillable = [
         'attempt_id',
         'question_id',
-        'answer_id'
+        'answer_id',
     ];
 
-    public function question()
+    public function user()
     {
-        return $this->hasOne(Question::class,'id','question_id');
+        return $this->hasOne(User::class,'id','user_id');
     }
 
-    public function answers()
+    public function exam()
     {
-        return $this->hasOne(Answer::class,'id','answer_id');
+        return $this->hasOne(Exam::class,'id','exam_id');
     }
 }

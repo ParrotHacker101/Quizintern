@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class ExamAttempt extends Model
 {
     use HasFactory;
-    public $table = "exam_attempts";
+    public $table = "exams_attempt";
 
     protected $fillable = [
         'exam_id',
-        'user_id',
+        'user_id'
     ];
 
     public function user()
@@ -25,3 +25,5 @@ class ExamAttempt extends Model
         return $this->hasOne(Exam::class,'id','exam_id');
     }
 }
+ 
+

@@ -1,68 +1,106 @@
-@extends('layout.layout-common')
-
+@extends('layout/layout-common')
 @section('space-work')
+@php
+    $time = explode(':',$exam[0]['time']);
+@endphp
 <div style="color: black" class="container">
     <p>Welcome, {{ Auth::user()->name }}</p>
-    <h1 class="text-center">{{ $exam->exam_name }}</h1>
-    @php $qcount = 1; @endphp
-    @if ($success)
-        @if (count($qna) > 0)
-            <form action="{{ route('exam.submit') }}" method="POST" class="mb-5" onsubmit="return isValid()">
-                @csrf
-                <input type="hidden" name="exam_id" value="{{ $exam->id }}">
-                @foreach ($qna as $data)
-                    <div>
-                        <h5>Q{{ $qcount }}. {{ $data->question->question }}</h5>
-                        <input type="hidden" name="q[]" value="{{ $data->question->id }}">
-                        <input type="hidden" name="ans_{{ $qcount }}" id="ans_{{ $qcount }}">
-                        @php $acount = 1; @endphp
-                        @foreach ($data->question->answers as $answer)
-                            <p><b>{{ $acount }}).</b> {{ $answer->answer }}</p>
-                            <input type="radio" name="radio_{{ $qcount }}" class="select_ans" data-id="{{ $qcount }}" value="{{ $answer->id }}">
-                            @php $acount++; @endphp
-                        @endforeach
-                    </div>
-                    <br>
-                    @php $qcount++; @endphp
-                @endforeach
-                <div class="text-center">
-                    <input type="submit" class="btn btn-info">
-                </div>
-            </form>
-        @else
-            <h3 class="text-center" style="color: red;">Questions & Answers not available</h3>
-        @endif
+    <h1 class="text-center">{{ $exam[0]['exam_name'] }}</h1>
+    @php  $qcount = 1;  @endphp
+    @if ($success == true)
+    @if (count($qna) > 0)
+     <h4 class="text-right time">{{ $exam[0]['time'] }}</h4>
+    <form action="{{ route('examSubmit') }}" method="POST" id="exam_form" class="mb-5" id="exam_form">
+     @csrf
+      <input type="hidden" name="exam_id" value="{{ $exam[0]['id'] }}">
+
+          @foreach ($qna as $data)
+          <div>
+          <h5>Q{{$qcount++}}. {{ $data['question'][0]['question'] }}</h5>
+          <input type="hidden" name="q[]" value="{{ $data['question'][0]['id'] }}">
+          <input type="hidden" name="ans_{{$qcount-1}}" id="ans_{{$qcount-1}}">
+          @php $acount = 'A'; @endphp
+          
+          @foreach ($data['question'][0]['answers'] as $answer)
+          
+              <p <b>{{ $acount++ }}).</b> {{ $answer['answer'] }}>
+              <input type="radio" name="radio_{{$qcount-1}}" class="select_ans" data-id="{{$qcount-1}}" value="{{ $answer['id'] }}">
+            </p>
+      @endforeach
+      <br>
+        </div>
+        
+
+          @endforeach
+          <div class="text-center">
+            <input type="submit" value="submit Answer" class="btn btn-info">
+          </div>
+  </form>
+
     @else
-        <h3 class="text-center" style="color: red;">{{ $msg }}</h3>
+      <h3 class="text-center" style="color: red;">Questions & Answers not available</h3>
+    @endif
+    @else
+    <h3 class="text-center" style="color: red;">{{ $msg }}</h3>
+
     @endif
 </div>
-@endsection
-
-@section('scripts')
 <script>
-    $(document).ready(function(){
-        $('.select_ans').click(function(){
-            var no = $(this).attr('data-id');
-            $('#ans_'+no).val($(this).val());
-        });
-    });
-
-    function isValid(){
-        var result = true;
-        var qLength = parseInt("{{ $qcount }}") - 1;
-        $('.error_msg').remove();
-
-        for (let i = 1; i <= qLength; i++) {
-            if ($('#ans_'+i).val() === "") {
-                result = false;
-                $('#ans_'+i).parent().append('<span style="color:red;" class="error_msg">Please select an answer.</span>');
-                setTimeout(() => {
-                    $('.error_msg').remove();
-                }, 5000);
-            }
+  $(document).ready(function(){
+    $('.select_ans').click(function(){
+      var no = $(this).attr('data-id');
+      $('#ans_'+no).val($(this).val());
+     });
+     var time = @json($time);
+     $('.time').text(time[0]+':'+time[1]+':00   ');
+     var seconds = 3;
+     var hours = parseInt(time[0]);
+     var minutes = parseInt(time[1]);
+     var timer = setInterval(() => {
+     
+        if(hours == 0 && minutes == 0 && seconds == 0){
+            clearInterval(timer);
+            $('#exam_form').submit();
         }
+        console.log(hours+" -:- "+minutes+" -:- "+seconds);
+      if(seconds <= 0){
+            minutes--;
+            seconds = 3;
+        } 
+        if(minutes <= 0 && hours != 0){
+          hours--;
+          minutes = 4;
+          seconds = 3;
+        }
+        let tempHours = hours.toString().length > 0? hours:'0'+hours;
+        let tempMinutes = minutes.toString().length > 0? minutes:'0'+minutes;
+        let tempSeconds = seconds.toString().length > 0? seconds:'0'+seconds;
 
-        return result;
-    }
+       
+        $('.time').text(tempHours+':'+tempMinutes+':'+tempSeconds+   'left Time');
+        seconds--;
+      
+     }, 1000);
+    
+    });
+    
+     function isValid(){
+      var result=true;
+      $qlength = parseInt("{{$qcount}}")-1;
+      $('.error_msg').remove();
+      for(let i=1; i <=$qlength; i++){
+        if($('#ans_'+i).val() == ""){ 
+          result = false;
+          $('#ans_'+i).parent().append('<span style="color:red;" class="error_msg">please select answer.</span>')
+          setTimeout(() => {
+            $('.error_msg').remove();
+            
+          }, 5000);
+
+        }
+      }
+      return result;
+}
+     
 </script>
 @endsection

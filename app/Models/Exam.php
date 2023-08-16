@@ -14,23 +14,18 @@ class Exam extends Model
         'exam_name',
         'subject_id',
         'date',
-        'time', 
+        'time',
         'attempt'
     ];
-
-    protected $append = ['attempt_counter'];
+    protected $appends = ['attempt_counter'];
     public $count = '';
-
-
-    public function subjects()
-    {
+   
+    public function subjects(){
         return $this->hasMany(Subject::class,'id','subject_id');
     }
-    public function getQnaExam()
-    {
+    public function getQnaExam(){
         return $this->hasMany(QnaExam::class,'exam_id','id');
     }
-
     public function getIdAttribute($value)
     {
         $attemptCount = ExamAttempt::where(['exam_id'=>$value,'user_id'=> auth()->user()->id])->count();
@@ -43,3 +38,4 @@ class Exam extends Model
         return $this->count;
     }
 }
+
