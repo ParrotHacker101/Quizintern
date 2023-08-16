@@ -24,6 +24,15 @@ class ExamAttempt extends Model
     {
         return $this->hasOne(Exam::class,'id','exam_id');
     }
+    public function question()
+    {
+        return $this->hasOne(Question::class,'id','question_id');
+    }
+
+    public function answers()
+    {
+        return $this->hasOne(Answer::class,'id','answer_id');
+    }
 }
  
 

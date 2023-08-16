@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ExamAttempt extends Model
+class ExamAnswer extends Model
 {
     use HasFactory;
     public $table = "exams_answers";
@@ -25,4 +25,15 @@ class ExamAttempt extends Model
     {
         return $this->hasOne(Exam::class,'id','exam_id');
     }
+
+    public function question()
+    {
+        return $this->hasOne(Question::class,'id','question_id');
+    }
+
+    public function answers()
+    {
+        return $this->hasOne(Answer::class,'id','answer_id');
+    }
+   
 }
