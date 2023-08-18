@@ -12,6 +12,7 @@ use App\Models\Answer;
 use App\Models\QnaExam;
 use App\Models\User;
 use App\Imports\QnaImport;
+use App\Exports\ExportStudent;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -148,8 +149,13 @@ class AdminController extends Controller
     public function addQna(Request $request){
         
         try{
+            $explanation = null;
+            if(isset($request->explanation)){
+                $explanation = $request->explanation; 
+            }
             $questionId=Question::insertGetId([
-                'question' => $request->question
+                'question' => $request->question,
+                'explanation'=>$explanation
             ]);
            
            foreach($request->answers as $answer){
@@ -181,8 +187,13 @@ class AdminController extends Controller
     }
     public function updateQna(Request $request) {
         try {
+            $explanation = null;
+            if(isset($request->explanation)){
+                $explanation = $request->explanation; 
+            }
             Question::where('id', $request->question_id)->update([
-                'question' => $request->question
+                'question' => $request->question,
+                'explanation'=>$explanation
             ]);
     
             // Old answer update
@@ -318,6 +329,9 @@ class AdminController extends Controller
          catch(\Execption $e){
              return response()->json(['success'=>false, 'msg'=>$e->getMessage()]);
          };
+     }
+     public function exportStudents(){
+        return Excel::download(new ExportStudent, 'students.xlsx');
      }
     
      //get questions
@@ -481,6 +495,7 @@ class AdminController extends Controller
 
             }
         }
+
     }
    
    

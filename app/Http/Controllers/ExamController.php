@@ -22,27 +22,21 @@ class ExamController extends Controller
         {
             $qnaExam = Exam::where('enterance_id', $id)->with('getQnaExam')->inRandomOrder()->get();
             //start
-            /*if($count($qnaExam) > 0){
-
+            if (count($qnaExam) > 0) {
+                if ($qnaExam[0]['date'] == date('Y-m-d')) {
+                    if (count($qnaExam[0]['getQnaExam']) > 0) {
             
-            if(getQnaExam[0]['date'] == date('Y-m-d')){
-                if(count(getQnaExam[0]['getQnaExam'])>0){
-
-                }else{
-                    return view('student.exam-dashboard',['success'=>false,'msg'=>'This exam is not availabile for now','exam'=>$qnaExam]);
-
+                    } else {
+                        return view('student.exam-dashboard', ['success' => false, 'msg' => 'This exam is not available for now', 'exam' => $qnaExam]);
+                    }
+                } else if ($qnaExam[0]['date'] > date('Y-m-d')) {
+                    return view('student.exam-dashboard', ['success' => false, 'msg' => 'This exam will start on ' . $qnaExam[0]['date'], 'exam' => $qnaExam]);
+                } else {
+                    return view('student.exam-dashboard', ['success' => false, 'msg' => 'This exam has expired on ' . $qnaExam[0]['date'], 'exam' => $qnaExam]);
                 }
+            } else {
+                return view('404');
             }
-            else if(getQnaExam[0]['date'] >date('Y-m-d')){
-                return view('student.exam-dashboard',['success'=>false,'msg'=>'This exam will be start on'.$qnaExam[0]['date'],'exam'=>$qnaExam]);
-
-            }else{
-                return view('student.exam-dashboard',['success'=>false,'msg'=>'This exam has been expiered on'.$qnaExam[0]['date'],'exam'=>$qnaExam]);
-
-
-            }
-            }
-            else{return view('404');}*/
             //end
 
             $attemptCount = 0; // Initialize the variable with a default value

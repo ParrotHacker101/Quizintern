@@ -28,7 +28,7 @@
                         <td>{{ $exam->attempt }} Time</td>
                         <td>{{ $exam->attempt_counter }}</td>
                         <td>
-                            <a href="#" class="copy" data-code="{{ $exam->enterance_id}}"><i class="fa fa-copy"></i></a>
+                            <button class="open-exam btn btn-info" data-code="{{ $exam->enterance_id }}"><i></i> Open Exam</button>
                         </td>
                     </tr>
                 @endforeach
@@ -41,19 +41,11 @@
     </table>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('.copy').click(function() {
-                $(this).parent().prepend('<span class="copied_text"> Copied</span>');
+        $(document).ready(function(){
+            $('.open-exam').click(function() {
                 var code = $(this).attr('data-code');
                 var url = "{{ URL::to('/') }}/exam/" + code;
-                var $temp = $("<input>");
-                $("body").append($temp);
-                $temp.val(url).select();
-                document.execCommand("copy");
-                $temp.remove();
-                setTimeout(function() {
-                    $('.copied_text').remove();
-                }, 2000);
+                window.location.href = url;
             });
         });
     </script>
