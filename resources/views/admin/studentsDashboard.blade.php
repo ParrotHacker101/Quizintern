@@ -5,6 +5,7 @@
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addStudentModal">
     Add Student
 </button>
+<a href="{{ route('exportStudents') }}" class="btn btn warning">Export Students</a>
 
   <table class="table">
     <thead>
@@ -18,9 +19,9 @@
         </tr>
     </thead>
     <tbody>
-        <tr>    
-            @if (count($students)>0) 
-            @foreach ($students as $student) 
+        <tr>
+            @if (count($students)>0)
+            @foreach ($students as $student)
             <tr>
                 <td>{{ $student->id }}</td>
                 <td>{{ $student->name }}</td>
@@ -36,20 +37,20 @@
                     </button>
                 </td>
             </tr>
-                
+
             @endforeach
             @else
                 <tr>
                     <td colspan="5">Student is not Found!</td>
                 </tr>
 
-                
+
             @endif
         </tr>
     </tbody>
 
 </table>
-  
+
 
 <!-- Add Student Modal -->
 <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -70,7 +71,7 @@
                 <div class="row mt-3">
                     <input type="text" class="w-100" name="email" placeholder="Enter Student email" required>
                 </div>
-             </div>    
+             </div>
 
              <div class="modal-footer">
                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -103,7 +104,7 @@
                 <div class="row mt-3">
                     <input type="text" class="w-100" id="email" name="email" placeholder="Enter Student email" required>
                 </div>
-             </div>    
+             </div>
 
              <div class="modal-footer">
                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -131,7 +132,7 @@
              <div class="modal-body">
                 <p>are you sure you want to delete student</p>
                 <input type="hidden" name="id" id="student_id">
-             </div>    
+             </div>
 
              <div class="modal-footer">
                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -23,12 +23,12 @@ Add Quiz
     </thead>
     <tbody>
         <tr>
-            @if (count($exams)>0) 
-            @foreach ($exams as $exam) 
+            @if (count($exams)>0)
+            @foreach ($exams as $exam)
             <tr>
                 <td>{{ $exam->id }}</td>
                 <td>{{ $exam->exam_name }}</td>
-                <td>{{ $exam->subjects}}</td>
+                <td>{{ $exam->subjects[0]['subject']}}</td>
                 <td>{{ $exam->date }}</td>
                 <td>{{ $exam->time }}Hrs</td>
                 <td>{{ $exam->attempt }}Time</td>
@@ -45,27 +45,27 @@ Add Quiz
                   <button class="btn btn-danger deleteButton" data-id="{{ $exam->id }}" data-toggle="modal" data-target="#deleteExamModel">Delete </button>
                 </td>
             </tr>
-                
+
             @endforeach
             @else
                 <tr>
                     <td colspan="5">Quiz not Found!</td>
                 </tr>
 
-                
+
             @endif
         </tr>
     </tbody>
 
 </table>
-  
-  
+
+
 
   <!-- Add Exam Modal -->
   <div class="modal fade" id="addExamModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
 
- 
+
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLongTitle">Add Quiz</h5>
@@ -83,9 +83,9 @@ Add Quiz
                     @if (count($subjects) >0 )
                     @foreach ($subjects as $subject)
                         <option value="{{ $subject->id }}">{{ $subject->subject }}</option>
-                        
+
                     @endforeach
-                        
+
                     @endif
 
                   </select>
@@ -93,28 +93,28 @@ Add Quiz
                   <input type="date" name="date" class="w-100"  requireds min="@php
                       echo date('Y-m-d');
                   @endphp"
-                      
+
                   ><br><br>
                   <input type="time" name="time" class="w-100"  requireds >
                   <br><br>
                   <input type="number" name="attempt" min="1" id="attempt" placeholder="Enter attempt Exam Time" class="w-100"  requireds >
 
 
-              </div>    
+              </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Add Quiz</button>
               </div>
       </form>
       </div>
-   
+
     </div>
   </div>
                   <!-- edit Quiz Modal -->
   <div class="modal fade" id="editExamModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
 
- 
+
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLongTitle">Edit Quiz</h5>
@@ -133,9 +133,9 @@ Add Quiz
                     @if (count($subjects) >0 )
                     @foreach ($subjects as $subject)
                         <option value="{{ $subject->id }}">{{ $subject->subject }}</option>
-                        
+
                     @endforeach
-                        
+
                     @endif
 
                   </select>
@@ -143,13 +143,13 @@ Add Quiz
                   <input type="date" name="date" id="date" class="w-100"  requireds min="@php
                       echo date('Y-m-d');
                   @endphp"
-                      
+
                   ><br><br>
-                  <input type="time" name="time" id="time" class="w-100"  requireds 
+                  <input type="time" name="time" id="time" class="w-100"  requireds
        <br><br>
                   <input type="number" name="attempt" min="1" id="attempt" placeholder="Enter attempt Exam Time" class="w-100"  requireds >
 
-              </div>    
+              </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Update</button>
@@ -159,12 +159,12 @@ Add Quiz
     </div>
   </div>
 
-  
+
     <!-- delete Exam Modal -->
     <div class="modal fade" id="deleteExamModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
-  
-   
+
+
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLongTitle">Delete Exam</h5>
@@ -178,8 +178,8 @@ Add Quiz
                     <label >Exam</label>
                     <input type="hidden" name="exam_id" id="deleteExamId">
                     <p>are sure you want to Delete the Exam?</p>
-                    
-                </div>    
+
+                </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                   <button type="submit" class="btn btn-danger">delete</button>
@@ -194,7 +194,7 @@ Add Quiz
   <div class="modal fade" id="addQnaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
 
- 
+
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLongTitle">Add Q&A</h5>
@@ -216,8 +216,8 @@ Add Quiz
                     <tbody class="addBody"></tbody>
                   </table>
                 </div>
-                
-                
+
+
 
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -225,7 +225,7 @@ Add Quiz
               </div>
       </form>
       </div>
-   
+
     </div>
   </div>
 
@@ -253,14 +253,14 @@ Add Quiz
 
                   </tbody>
                 </table>
-              </div>    
+              </div>
 
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               </div>
       </form>
       </div>
-   
+
     </div>
   </div>
 
@@ -279,7 +279,7 @@ Add Quiz
                         location.reload();
                     }else{
                         alert(data.msg);
-                    }                   
+                    }
                 }
               });
 
@@ -290,7 +290,7 @@ $(".editButton").click(function(){
                 var id=$(this).attr('data-id');
                 $("#exam_id").val(id);
                 var url = $(this).attr('data-url');
-              
+
                 url = url.replace('id',id);
                 $.ajax({
                     url:url,
@@ -322,7 +322,7 @@ $(".editButton").click(function(){
                             location.reload();
                         }else{
                             alert(data.msg);
-                        }                   
+                        }
                     }
                 });
             });
@@ -345,7 +345,7 @@ $(".editButton").click(function(){
                             location.reload();
                         }else{
                             alert(data.msg);
-                        }                   
+                        }
                     }
                 });
             });
@@ -378,7 +378,7 @@ $(".editButton").click(function(){
                     else{
                       html +=`
                       <tr>
-                          <td colspan="2">Question is not Available!</td> 
+                          <td colspan="2">Question is not Available!</td>
                       </tr> `;
                     }
                     $('.addBody').html(html);
@@ -401,13 +401,13 @@ $(".editButton").click(function(){
                             location.reload();
                         }else{
                             alert(data.msg);
-                        }                   
+                        }
                     }
                 });
             });
              //see questions part
-          
-           
+
+
     $('.seeQuestions').click(function() {
       var id = $(this).attr('data-id');
 
@@ -445,14 +445,14 @@ $(".editButton").click(function(){
         }
       });
     });
-    
+
 
     $(document).on('click', '.deleteQuestion', function() {
       var id = $(this).attr('data-id');
       var obj = $(this);
       $.ajax({
         url: "{{ route('deleteExamQuestions') }}",
-        type: "GET", 
+        type: "GET",
         data: { id:id },
         success: function(data) {
           if (data.success == true) {
@@ -463,7 +463,7 @@ $(".editButton").click(function(){
         }
       });
     });
-  
+
 });
 
 </script>

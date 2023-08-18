@@ -19,8 +19,8 @@
             @foreach ($attempts as $attempt)
                 <tr>
                     <td>{{ $x++ }}</td>
-                    <td>{{ $attempt->user->name }}</td>
-                    <td>{{ $attempt->exam->exam_name }}</td>
+                    <td>{{ $attempt->user->name ?? 'N/A' }}</td>
+                    <td>{{ $attempt->exam->exam_name ?? 'N/A' }}</td>
                     <td>
                         @if ($attempt->status == 0)
                             <span style="color: red">Pending</span>
@@ -48,8 +48,8 @@
     </table>
     <div class="modal fade" id="reviewExamModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
-    
-     
+
+
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLongTitle">Review Exam</h5>
@@ -62,21 +62,21 @@
                 <input type="hidden" name="attempt_id" id="attempt_id">
                   <div class="modal-body review-exam">
                     Loading....
-                    
-                  </div>    
+
+                  </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary approved-btn">Approved</button>
                   </div>
           </form>
           </div>
-       
+
         </div>
       </div>
       <script>
         $(document).ready(function(){
             $('.reviewExam').click(function(){
-                
+
                 var id = $(this).attr('data-id');
                 $('#attempt_id').val(id);
                 $.ajax({
@@ -88,8 +88,8 @@
                         if(data.success == true){
                             var data = data.data;
                             if(data.length > 0){
-                                
-                                
+
+
                                 for(let i=0;i<data.length;i++){
                                     let isCorrect = '<span style="color:red;" class="fa fa-close"></span>'
                                     let answer =data[i]['answers']['answer'];
@@ -98,7 +98,7 @@
 
 
                                     }
-                                    
+
                                     html += '<div class="row">' +
                                     '<div class="col-sm-12">' +
                                     '<h6>Q(' + (i + 1) + '). ' + data[i]['question']['question'].replace(/'/g, "\\'") + '</h6>' +
@@ -108,9 +108,9 @@
                                 }
 
                             }else{
-                                
+
                                 html +='<h6>student not attempt any Question!<h6> <p>if you approve this exam student will faill!</p>';
-                                
+
                             }
 
                         }else{
@@ -130,9 +130,9 @@
             type:"POST",
             data:formData,
             success:function(data){
-                
+
                 if(data.success == true){
-                   
+
                     location.reload();
                 }else{
                     alert(data.msg);
@@ -141,8 +141,8 @@
             });
         });
     });
-    
-        
+
+
       </script>
 
 

@@ -165,6 +165,15 @@ $(document).ready(function() {
 
 
 @endsection
+<script>/*
+                    let isCorrect = '<span style="color:red;" class="fa fa-close"></span>';
+                    let answer = responseData[i]['answers']['answer'];
+                    if (responseData[i]['answers']['is_correct'] === 1) {
+                      isCorrect = '<span style="color:green;" class="fa fa-check"></span>';
+              }
+             
+            }
+          } */</script>
            
            
         

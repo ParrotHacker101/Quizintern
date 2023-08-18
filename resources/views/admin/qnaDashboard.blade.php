@@ -64,7 +64,12 @@
                             <div class="col">
                                 <input type="text" name="question" class="w-100" placeholder="Enter Question" required>
                             </div>
+                           </div>
+                            <div class="row  mt-2">
+                                <div class="col">
+                                   <textarea name="explanation"  class="w-100" placeholder="Enter your Explanation(optional)"></textarea>
                         </div>
+                     </div>
                     </div>
                     <div class="modal-footer">
                         <span class="error" style="color: red;"></span>
@@ -95,6 +100,14 @@
                                 <input type="text" name="question" id="question" class="w-100" placeholder="Enter Question" required>
                             </div>
                         </div>
+                    
+                        <div class="row ">
+                            <div class="col">
+                                <textarea name="explanation" id="explanation" class="w-100" placeholder="Enter your explanation(optional)"></textarea>
+                           
+                        </div>
+                        
+                    </div>
                     </div>
                     <div class="modal-footer">
                         <span class="editError" style="color: red;"></span>
@@ -316,6 +329,7 @@
             $("#question_id").val(qna['id']);
             $("#question").val(qna['question']);
             $(".editAnswers").remove();
+            $("#explanation").val(qna['explanation']);
             var html='';
             for(let i=0; i < qna['answers'].length; i++){
                 var checked = '';
